@@ -1,0 +1,288 @@
+/* === Reset & Base === */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-dark: #0a0a0f;
+  --bg-card: #12121a;
+  --border: #2a2a3a;
+  --accent: #00e5ff;
+  --accent-dim: #00e5ff33;
+  --accent-glow: #00e5ff66;
+  --text: #e0e0e0;
+  --text-dim: #888;
+  --danger: #ff4060;
+  --success: #00ff88;
+  --font-mono: 'Courier New', 'Consolas', monospace;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text);
+  font-family: var(--font-mono);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* === CRT Scanline Overlay === */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* === Header === */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #0f0f18 0%, var(--bg-dark) 100%);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-icon {
+  font-size: 1.8rem;
+  color: var(--accent);
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.3rem;
+  color: var(--accent);
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.header-subtitle {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--border);
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--success);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 6px var(--success);
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+/* === Arcade Grid === */
+.arcade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* === Arcade Card === */
+.arcade-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.arcade-card:not(.coming-soon):hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-dim), inset 0 0 20px var(--accent-dim);
+  transform: translateY(-4px);
+}
+
+.arcade-card.coming-soon {
+  opacity: 0.4;
+}
+
+/* Card Screen */
+.card-screen {
+  height: 180px;
+  background: #080810;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-icon {
+  font-size: 3.5rem;
+  z-index: 1;
+  filter: drop-shadow(0 0 15px var(--accent-glow));
+}
+
+/* Scan Line Animation */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scan 2.5s linear infinite;
+  opacity: 0.6;
+}
+
+/* Static Noise for Coming Soon */
+.static-noise {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+  opacity: 0.3;
+}
+
+/* Card Info */
+.card-info {
+  padding: 1.25rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  letter-spacing: 0.15rem;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+
+.card-desc {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+.card-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.6rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-dim);
+  letter-spacing: 0.05rem;
+}
+
+/* Card Slot / Button */
+.card-slot {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.insert-coin {
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.2rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.insert-coin:hover:not(.disabled) {
+  background: var(--accent);
+  color: var(--bg-dark);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.insert-coin.disabled {
+  border-color: var(--border);
+  color: var(--text-dim);
+  cursor: not-allowed;
+}
+
+/* === Footer === */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+
+/* === Animations === */
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px var(--accent-glow)); }
+  50% { filter: drop-shadow(0 0 15px var(--accent)); }
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .header-subtitle {
+    display: none;
+  }
+
+  .arcade-grid {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1rem;
+  }
+}

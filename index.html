@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Stuff - Interactive AI Portfolio</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <div class="header-title">
+        <span class="header-icon">⬡</span>
+        <h1>AI STUFF</h1>
+        <span class="header-subtitle">INTERACTIVE AI PORTFOLIO</span>
+      </div>
+      <div class="header-status">
+        <span class="status-dot"></span>
+        <span>BROWSER AI READY</span>
+      </div>
+    </header>
+
+    <main class="arcade-grid">
+      <div class="arcade-card" data-project="vlm">
+        <div class="card-screen">
+          <div class="card-preview">
+            <div class="preview-icon">👁</div>
+            <div class="scan-line"></div>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">VLM VISION</h2>
+          <p class="card-desc">Camera + AI Vision Model</p>
+          <div class="card-tags">
+            <span class="tag">Transformers.js</span>
+            <span class="tag">WebGPU</span>
+            <span class="tag">Camera</span>
+          </div>
+        </div>
+        <div class="card-slot">
+          <button class="insert-coin" onclick="location.href='src/pages/vlm.html'">
+            ▶ START
+          </button>
+        </div>
+      </div>
+
+      <div class="arcade-card coming-soon">
+        <div class="card-screen">
+          <div class="card-preview">
+            <div class="preview-icon">?</div>
+            <div class="static-noise"></div>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">COMING SOON</h2>
+          <p class="card-desc">Next AI Project</p>
+          <div class="card-tags">
+            <span class="tag">TBD</span>
+          </div>
+        </div>
+        <div class="card-slot">
+          <button class="insert-coin disabled" disabled>LOCKED</button>
+        </div>
+      </div>
+
+      <div class="arcade-card coming-soon">
+        <div class="card-screen">
+          <div class="card-preview">
+            <div class="preview-icon">?</div>
+            <div class="static-noise"></div>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">COMING SOON</h2>
+          <p class="card-desc">Next AI Project</p>
+          <div class="card-tags">
+            <span class="tag">TBD</span>
+          </div>
+        </div>
+        <div class="card-slot">
+          <button class="insert-coin disabled" disabled>LOCKED</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>All AI models run locally in your browser. No data leaves your device.</p>
+    </footer>
+  </div>
+</body>
+</html>

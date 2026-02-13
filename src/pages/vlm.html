@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VLM Vision - AI Stuff</title>
+  <link rel="stylesheet" href="../styles/main.css" />
+  <link rel="stylesheet" href="../styles/vlm.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <div class="header-title">
+        <a href="/AI_stuff_web/" class="back-btn">&lt; BACK</a>
+        <span class="header-icon">👁</span>
+        <h1>VLM VISION</h1>
+      </div>
+      <div class="header-status" id="model-status">
+        <span class="status-dot status-loading"></span>
+        <span id="status-text">LOADING MODEL...</span>
+      </div>
+    </header>
+
+    <main class="vlm-container">
+      <!-- Left: Camera Feed -->
+      <section class="camera-section">
+        <div class="section-label">CAMERA FEED</div>
+        <div class="camera-wrapper">
+          <video id="camera-feed" autoplay playsinline></video>
+          <canvas id="capture-canvas" style="display:none;"></canvas>
+          <div class="camera-overlay" id="camera-overlay">
+            <p>Click to enable camera</p>
+          </div>
+          <div class="camera-frame"></div>
+        </div>
+        <div class="camera-controls">
+          <button id="btn-camera" class="ctrl-btn">ENABLE CAMERA</button>
+          <button id="btn-capture" class="ctrl-btn accent" disabled>CAPTURE & ANALYZE</button>
+          <button id="btn-auto" class="ctrl-btn" disabled>AUTO: OFF</button>
+        </div>
+      </section>
+
+      <!-- Right: AI Output -->
+      <section class="output-section">
+        <div class="section-label">AI OUTPUT</div>
+
+        <!-- Model Loading Progress -->
+        <div class="progress-area" id="progress-area">
+          <div class="progress-label">
+            <span id="progress-text">Preparing model...</span>
+            <span id="progress-pct">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Prompt Input -->
+        <div class="prompt-area">
+          <label class="section-sublabel">PROMPT</label>
+          <div class="prompt-row">
+            <input
+              type="text"
+              id="prompt-input"
+              value="Describe what you see in this image in detail."
+              placeholder="Ask something about the image..."
+            />
+          </div>
+          <div class="prompt-presets">
+            <button class="preset-btn" data-prompt="Describe what you see in this image in detail.">Describe</button>
+            <button class="preset-btn" data-prompt="What objects can you identify in this image?">Objects</button>
+            <button class="preset-btn" data-prompt="Read any text visible in this image.">Read Text</button>
+            <button class="preset-btn" data-prompt="What is the mood or atmosphere of this scene?">Mood</button>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="result-area">
+          <label class="section-sublabel">RESPONSE</label>
+          <div class="result-box" id="result-box">
+            <p class="placeholder-text">Capture an image to see AI analysis here.</p>
+          </div>
+        </div>
+
+        <!-- Captured Image Preview -->
+        <div class="preview-area" id="preview-area" style="display:none;">
+          <label class="section-sublabel">CAPTURED FRAME</label>
+          <img id="preview-img" alt="captured frame" />
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Model runs entirely in your browser via Transformers.js + WebGPU/WASM. No data leaves your device.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="../vlm-app.js"></script>
+</body>
+</html>

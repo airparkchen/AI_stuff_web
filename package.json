@@ -1,0 +1,18 @@
+{
+  "name": "ai-stuff-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI Portfolio - Interactive AI projects running in your browser",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.4.0"
+  },
+  "devDependencies": {
+    "vite": "^6.1.0"
+  }
+}
