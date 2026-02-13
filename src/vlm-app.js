@@ -9,6 +9,7 @@ let modelReady = false;
 let cameraStream = null;
 let autoMode = false;
 let autoInterval = null;
+let isAnalyzing = false;
 
 // --- DOM Elements ---
 const video = document.getElementById('camera-feed');
@@ -87,20 +88,38 @@ async function enableCamera() {
 }
 
 // --- Capture & Analyze ---
+const captureCtx = (() => {
+  // Reuse the same canvas context to avoid repeated GPU memory allocation
+  let ctx = null;
+  return () => {
+    if (!ctx) ctx = canvas.getContext('2d');
+    return ctx;
+  };
+})();
+
 function captureFrame() {
   if (!video.videoWidth) return null;
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  const ctx = canvas.getContext('2d');
+  // Only resize canvas if dimensions actually changed
+  if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+  }
+  const ctx = captureCtx();
   ctx.drawImage(video, 0, 0);
-  return canvas.toDataURL('image/jpeg', 0.8);
+  return canvas.toDataURL('image/jpeg', 0.6);
 }
 
 async function analyzeFrame() {
   if (!modelReady || !cameraStream) return;
+  // Prevent concurrent inference — skip if previous is still running
+  if (isAnalyzing) return;
+  isAnalyzing = true;
 
   const imageData = captureFrame();
-  if (!imageData) return;
+  if (!imageData) {
+    isAnalyzing = false;
+    return;
+  }
 
   // Show preview
   previewArea.style.display = 'block';
@@ -121,6 +140,7 @@ async function analyzeFrame() {
     resultBox.className = 'result-box error';
     resultBox.textContent = `Analysis failed: ${err.message}`;
   } finally {
+    isAnalyzing = false;
     btnCapture.disabled = false;
   }
 }
@@ -131,7 +151,7 @@ function toggleAutoMode() {
   if (autoMode) {
     btnAuto.textContent = 'AUTO: ON';
     btnAuto.classList.add('active');
-    autoInterval = setInterval(analyzeFrame, 5000);
+    autoInterval = setInterval(analyzeFrame, 8000);
     analyzeFrame();
   } else {
     btnAuto.textContent = 'AUTO: OFF';
